@@ -1,43 +1,31 @@
+const ai = require("./ai")
 const checkers = require("./checkers")
 
-// position = [
-//     ["*", "*", "*", "*", "*", "*", "*", "*"],
-//     ["a", "*", "a", "*", "a", "*", "a", "*"],
-//     ["*", "*", "*", "*", "*", "*", "*", "*"],
-//     ["a", "*", "e", "*", "e", "*", "a", "*"],
-//     ["*", "*", "*", "*", "*", "*", "*", "*"],
-//     ["a", "*", "e", "*", "e", "*", "a", "*"],
-//     ["*", "*", "*", "A", "*", "*", "*", "*"],
-//     ["*", "*", "*", "*", "*", "*", "*", "*"],
-// ]
-
 position = [
+    ["*", "a", "*", "a", "*", "a", "*", "a"],
+    ["a", "*", "a", "*", "a", "*", "a", "*"],
+    ["*", "a", "*", "a", "*", "a", "*", "a"],
     ["*", "*", "*", "*", "*", "*", "*", "*"],
     ["*", "*", "*", "*", "*", "*", "*", "*"],
-    ["*", "*", "*", "*", "*", "*", "*", "*"],
-    ["*", "*", "*", "*", "*", "*", "*", "*"],
-    ["*", "*", "a", "*", "*", "*", "*", "*"],
-    ["*", "*", "*", "*", "*", "*", "*", "*"],
-    ["*", "*", "*", "*", "*", "*", "*", "*"],
-    ["*", "*", "*", "*", "*", "*", "*", "A"],
+    ["e", "*", "e", "*", "e", "*", "e", "*"],
+    ["*", "e", "*", "e", "*", "e", "*", "e"],
+    ["e", "*", "e", "*", "e", "*", "e", "*"]
 ]
-
 console.time('myScript')
-console.table(checkers.getMoves(position, true, true))
+ai.getBestMove(position, true, true, 1)
 console.timeEnd('myScript')
 console.time('myScript')
-checkers.getMoves(position, true, true)
+ai.getBestMove(position, true, true, 2)
 console.timeEnd('myScript')
 console.time('myScript')
-checkers.getMoves(position, true, true)
+ai.getBestMove(position, true, true, 3)
 console.timeEnd('myScript')
 console.time('myScript')
-checkers.getMoves(position, true, true)
-checkers.getMoves(position, true, true)
+ai.getBestMove(position, true, true, 4)
 console.timeEnd('myScript')
 console.time('myScript')
-checkers.getMoves(position, true, true)
+ai.getBestMove(position, true, true, 5)
 console.timeEnd('myScript')
-// console.time('myScript')
-// checkers.getMoves(position, true, true)
-// console.timeEnd('myScript')
+console.time('myScript')
+ai.getBestMove(position, true, true, 6)
+console.timeEnd('myScript')
