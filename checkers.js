@@ -4,14 +4,14 @@ function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards) {
 
     for (let y = 0; y < 8; y++) {
         for (let x = 0; x < 8; x++) {
-            if ((pieceType === 'a' && position[y][x] === 'a') || (pieceType === 'e' && position[y][x] === 'e')) {
+            if ((pieceType === "b" && position[y][x] === "b") || (pieceType === "w" && position[y][x] === "w")) {
                 const res = getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, canCaptureBackwards)
                 if (res.hasToCapture && !hasToCapture) {
                     moves = []
                     hasToCapture = true
                 }
                 moves = moves.concat(res.moves);
-            } else if ((pieceType === 'a' && position[y][x] === 'A') || (pieceType === 'e' && position[y][x] === 'E')) {
+            } else if ((pieceType === "b" && position[y][x] === "B") || (pieceType === "w" && position[y][x] === "W")) {
                 const res = getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures)
                 if (res.hasToCapture && !hasToCapture) {
                     moves = []
@@ -36,7 +36,7 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
     }
 
     if (!hasToCapture) {
-        let forwardY = pieceType === 'a' ? y + 1 : y - 1
+        let forwardY = pieceType === "b" ? y + 1 : y - 1
         if (x - 1 >= 0 && x - 1 < 8 && forwardY >= 0 && forwardY < 8 && position[forwardY][x - 1] === "*") {
             moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": forwardY, "originalPiece": "*"}])
         }
@@ -52,7 +52,7 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
     function getPieceCaptures(pos, x1, y1, pieceType, capture, canCaptureBackwards) {
         let capturesRes = []
         let directions = [-1, 1]
-        let backwardDirection = canCaptureBackwards ? [-1, 1] : [pieceType === 'a' ? 1 : -1]
+        let backwardDirection = canCaptureBackwards ? [-1, 1] : [pieceType === "b" ? 1 : -1]
 
         for (let dy of backwardDirection) {
             for (let dx of directions) {
@@ -62,8 +62,8 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
                 let enemyY = y1 + dy
 
                 if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8 &&
-                    ((pieceType === 'a' && (pos[enemyY][enemyX] === "e" || pos[enemyY][enemyX] === "E")) ||
-                    (pieceType === 'e' && (pos[enemyY][enemyX] === "a" || pos[enemyY][enemyX] === "A"))) &&
+                    ((pieceType === "b" && (pos[enemyY][enemyX] === "w" || pos[enemyY][enemyX] === "W")) ||
+                    (pieceType === "w" && (pos[enemyY][enemyX] === "b" || pos[enemyY][enemyX] === "B"))) &&
                     pos[nextY][nextX] === "*") {
                     let capturedPiece = pos[enemyY][enemyX]
                     pos[enemyY][enemyX] = "*"
@@ -130,8 +130,8 @@ function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures) {
             let y = y1 + direction.dy
     
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                if ((pieceType === 'a' && (pos[y][x] === "e" || pos[y][x] === "E")) ||
-                    (pieceType === 'e' && (pos[y][x] === "a" || pos[y][x] === "A"))) {
+                if ((pieceType === "b" && (pos[y][x] === "w" || pos[y][x] === "W")) ||
+                    (pieceType === "w" && (pos[y][x] === "b" || pos[y][x] === "B"))) {
                     let capturedPiece = pos[y][x]
                     let nx = x + direction.dx
                     let ny = y + direction.dy
