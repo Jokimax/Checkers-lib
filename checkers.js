@@ -1,20 +1,19 @@
-function getMoves(position, forcedCaptures, canCaptureBackwards) {
+function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards) {
     let hasToCapture = false
     let moves = []
 
-    for(let y = 0; y < 8; y++){
-        for(let x = 0; x < 8; x++){
-            if(position[y][x] === "a"){
-                const res = getPeasantMoves(position, x, y, "a", hasToCapture, forcedCaptures, canCaptureBackwards)
-                if(res.hasToCapture == true && hasToCapture == false){
+    for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+            if ((pieceType === 'a' && position[y][x] === 'a') || (pieceType === 'e' && position[y][x] === 'e')) {
+                const res = getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, canCaptureBackwards)
+                if (res.hasToCapture && !hasToCapture) {
                     moves = []
                     hasToCapture = true
                 }
-                moves = moves.concat(res.moves)
-            }
-            else if(position[y][x] === "A"){
-                const res = getKingMoves(position, x, y, "A", hasToCapture, forcedCaptures)
-                if(res.hasToCapture == true && hasToCapture == false){
+                moves = moves.concat(res.moves);
+            } else if ((pieceType === 'a' && position[y][x] === 'A') || (pieceType === 'e' && position[y][x] === 'E')) {
+                const res = getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures)
+                if (res.hasToCapture && !hasToCapture) {
                     moves = []
                     hasToCapture = true
                 }
@@ -26,83 +25,56 @@ function getMoves(position, forcedCaptures, canCaptureBackwards) {
     return moves
 }
 
-function getOpponentMoves(position, forcedCaptures, canCaptureBackwards) {
-    let hasToCapture = false
-    let moves = []
-
-    for(let y = 0; y < 8; y++){
-        for(let x = 0; x < 8; x++){
-            if(position[y][x] === "e"){
-                const res = getPeasantMoves(position, x, y, "e", hasToCapture, forcedCaptures, canCaptureBackwards)
-                if(res.hasToCapture == true && hasToCapture == false){
-                    moves = []
-                    hasToCapture = true
-                }
-                moves = moves.concat(res.moves)
-            }
-            else if(position[y][x] === "E"){
-                const res = getKingMoves(position, x, y, "E", hasToCapture, forcedCaptures)
-                if(res.hasToCapture == true && hasToCapture == false){
-                    moves = []
-                    hasToCapture = true
-                }
-                moves = moves.concat(res.moves)
-            }
-        }
-    }
-
-    return moves
-}
 
 function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, canCaptureBackwards) {
-    let originalPiece = position[y][x];
-    position[y][x] = "*";
-    let moves = getPieceCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}], canCaptureBackwards);
+    let originalPiece = position[y][x]
+    position[y][x] = "*"
+    let moves = getPieceCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}], canCaptureBackwards)
 
     if (moves.length !== 0) {
-        hasToCapture = forcedCaptures;
+        hasToCapture = forcedCaptures
     }
 
     if (!hasToCapture) {
-        let forwardY = pieceType === 'a' ? y + 1 : y - 1;
+        let forwardY = pieceType === 'a' ? y + 1 : y - 1
         if (x - 1 >= 0 && x - 1 < 8 && forwardY >= 0 && forwardY < 8 && position[forwardY][x - 1] === "*") {
-            moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": forwardY, "originalPiece": "*"}]);
+            moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": forwardY, "originalPiece": "*"}])
         }
         if (x + 1 >= 0 && x + 1 < 8 && forwardY >= 0 && forwardY < 8 && position[forwardY][x + 1] === "*") {
-            moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x + 1, "y": forwardY, "originalPiece": "*"}]);
+            moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x + 1, "y": forwardY, "originalPiece": "*"}])
         }
     }
 
-    position[y][x] = originalPiece;
+    position[y][x] = originalPiece
 
-    return {"moves": moves, "hasToCapture": hasToCapture};
+    return {"moves": moves, "hasToCapture": hasToCapture}
 
     function getPieceCaptures(pos, x1, y1, pieceType, capture, canCaptureBackwards) {
-        let capturesRes = [];
-        let directions = [-1, 1];
-        let backwardDirection = canCaptureBackwards ? [-1, 1] : [pieceType === 'a' ? 1 : -1];
+        let capturesRes = []
+        let directions = [-1, 1]
+        let backwardDirection = canCaptureBackwards ? [-1, 1] : [pieceType === 'a' ? 1 : -1]
 
         for (let dy of backwardDirection) {
             for (let dx of directions) {
-                let nextX = x1 + (2 * dx);
-                let nextY = y1 + (2 * dy);
-                let enemyX = x1 + dx;
-                let enemyY = y1 + dy;
+                let nextX = x1 + (2 * dx)
+                let nextY = y1 + (2 * dy)
+                let enemyX = x1 + dx
+                let enemyY = y1 + dy
 
                 if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8 &&
                     ((pieceType === 'a' && (pos[enemyY][enemyX] === "e" || pos[enemyY][enemyX] === "E")) ||
                     (pieceType === 'e' && (pos[enemyY][enemyX] === "a" || pos[enemyY][enemyX] === "A"))) &&
                     pos[nextY][nextX] === "*") {
-                    let capturedPiece = pos[enemyY][enemyX];
-                    pos[enemyY][enemyX] = "*";
-                    let newCapture = capture.concat([{"x": enemyX, "y": enemyY, "originalPiece": capturedPiece}, {"x": nextX, "y": nextY, "originalPiece": "*"}]);
-                    let search = getPieceCaptures(pos, nextX, nextY, pieceType, newCapture, canCaptureBackwards);
-                    if (search.length === 0) capturesRes.push(newCapture);
+                    let capturedPiece = pos[enemyY][enemyX]
+                    pos[enemyY][enemyX] = "*"
+                    let newCapture = capture.concat([{"x": enemyX, "y": enemyY, "originalPiece": capturedPiece}, {"x": nextX, "y": nextY, "originalPiece": "*"}])
+                    let search = getPieceCaptures(pos, nextX, nextY, pieceType, newCapture, canCaptureBackwards)
+                    if (search.length === 0) capturesRes.push(newCapture)
                     else {
-                        if (!forcedCaptures) capturesRes.push(newCapture);
-                        for (let i = 0; i < search.length; i++) capturesRes.push(search[i]);
+                        if (!forcedCaptures) capturesRes.push(newCapture)
+                        for (let i = 0; i < search.length; i++) capturesRes.push(search[i])
                     }
-                    pos[enemyY][enemyX] = capturedPiece;
+                    pos[enemyY][enemyX] = capturedPiece
                 }
             }
         }
@@ -111,12 +83,12 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
 }
 
 function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures) {
-    let originalPiece = position[y][x];
-    position[y][x] = "*";
-    let moves = getKingCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}]);
+    let originalPiece = position[y][x]
+    position[y][x] = "*"
+    let moves = getKingCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}])
 
     if (moves.length !== 0) {
-        hasToCapture = forcedCaptures;
+        hasToCapture = forcedCaptures
     }
 
     if (!hasToCapture) {
@@ -125,67 +97,67 @@ function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures) {
             { dx: 1, dy: -1 },
             { dx: -1, dy: 1 },
             { dx: -1, dy: -1 }
-        ];
+        ]
 
         for (let direction of directions) {
-            let x1 = x + direction.dx;
-            let y1 = y + direction.dy;
+            let x1 = x + direction.dx
+            let y1 = y + direction.dy
     
             while (x1 >= 0 && x1 < 8 && y1 >= 0 && y1 < 8 && position[y1][x1] === "*") {
-                moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x1, "y": y1, "originalPiece": "*"}]);
+                moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x1, "y": y1, "originalPiece": "*"}])
                 x1 += direction.dx;
                 y1 += direction.dy;
             }
         }
     }
 
-    position[y][x] = originalPiece;
+    position[y][x] = originalPiece
 
-    return {"moves": moves, "hasToCapture": hasToCapture};
+    return {"moves": moves, "hasToCapture": hasToCapture}
 
     function getKingCaptures(pos, x1, y1, pieceType, capture) {
-        let capturesRes = [];
+        let capturesRes = []
     
         const directions = [
             { dx: 1, dy: 1 },
             { dx: 1, dy: -1 },
             { dx: -1, dy: 1 },
             { dx: -1, dy: -1 }
-        ];
+        ]
     
         for (let direction of directions) {
-            let x = x1 + direction.dx;
-            let y = y1 + direction.dy;
+            let x = x1 + direction.dx
+            let y = y1 + direction.dy
     
             while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-                if ((pieceType === 'A' && (pos[y][x] === "e" || pos[y][x] === "E")) ||
-                    (pieceType === 'E' && (pos[y][x] === "a" || pos[y][x] === "A"))) {
-                    let capturedPiece = pos[y][x];
-                    let nx = x + direction.dx;
-                    let ny = y + direction.dy;
+                if ((pieceType === 'a' && (pos[y][x] === "e" || pos[y][x] === "E")) ||
+                    (pieceType === 'e' && (pos[y][x] === "a" || pos[y][x] === "A"))) {
+                    let capturedPiece = pos[y][x]
+                    let nx = x + direction.dx
+                    let ny = y + direction.dy
     
                     while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8 && pos[ny][nx] === "*") {
-                        let newCapture = capture.concat([{ "x": x, "y": y, "originalPiece": capturedPiece }, { "x": nx, "y": ny, "originalPiece": "*" }]);
-                        pos[y][x] = "*";
-                        let search = getKingCaptures(pos, nx, ny, pieceType, newCapture);
-                        if (search.length === 0) capturesRes.push(newCapture);
+                        let newCapture = capture.concat([{ "x": x, "y": y, "originalPiece": capturedPiece }, { "x": nx, "y": ny, "originalPiece": "*" }])
+                        pos[y][x] = "*"
+                        let search = getKingCaptures(pos, nx, ny, pieceType, newCapture)
+                        if (search.length === 0) capturesRes.push(newCapture)
                         else {
-                            if (!forcedCaptures) capturesRes.push(newCapture);
-                            for (let i = 0; i < search.length; i++) capturesRes.push(search[i]);
+                            if (!forcedCaptures) capturesRes.push(newCapture)
+                            for (let i = 0; i < search.length; i++) capturesRes.push(search[i])
                         }
-                        nx += direction.dx;
-                        ny += direction.dy;
+                        nx += direction.dx
+                        ny += direction.dy
                     }
-                    pos[y][x] = capturedPiece;
-                    break;
+                    pos[y][x] = capturedPiece
+                    break
                 }
-                x += direction.dx;
-                y += direction.dy;
+                x += direction.dx
+                y += direction.dy
             }
         }
     
-        return capturesRes;
+        return capturesRes
     }    
 }
 
-module.exports = { getMoves, getOpponentMoves }
+module.exports = { getMoves }
