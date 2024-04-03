@@ -79,7 +79,7 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
                 }
             }
         }
-        return capturesRes;
+        return capturesRes
     }
 }
 
@@ -109,8 +109,8 @@ function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, f
         
                 while (x1 >= 0 && x1 < 8 && y1 >= 0 && y1 < 8 && position[y1][x1] === "*") {
                     moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x1, "y": y1, "originalPiece": "*"}])
-                    x1 += direction.dx;
-                    y1 += direction.dy;
+                    x1 += direction.dx
+                    y1 += direction.dy
                 }
             }
         }
