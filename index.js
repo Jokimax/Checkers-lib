@@ -11,3 +11,5 @@ position = [
     ["*", "w", "*", "w", "*", "w", "*", "w"],
     ["w", "*", "w", "*", "w", "*", "w", "*"]
 ]
+
+console.log(ai.getBestMove(position, "w", true, true, true, true, 8))

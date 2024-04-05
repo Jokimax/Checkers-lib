@@ -23,7 +23,7 @@ function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards, flyi
     }
 
     if(maxCaptures) moves = getMaxCaptures(moves)
-    return moves
+    return { "moves": moves, "hasToCapture": hasToCapture }
 }
 
 
@@ -217,4 +217,4 @@ function getMaxCaptures(moves) {
     return resMoves
 }
 
-module.exports = { getMoves }
+module.exports = { getMoves, getPeasantMoves, getKingMoves }
