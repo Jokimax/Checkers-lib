@@ -91,9 +91,6 @@ function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, f
     if (moves.length !== 0) {
         hasToCapture = forcedCaptures
     }
-    if(flyingKing){
-        
-    }
     if (!hasToCapture) {
         if(flyingKing) {
             const directions = [
@@ -118,13 +115,13 @@ function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, f
             if (x - 1 >= 0 && y - 1 >= 0  && position[y - 1][x - 1] === "*") {
                 moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": y - 1, "originalPiece": "*"}])
             }
-            if (x + 1 < 8 && y - 1 >= 0 && position[forwardY][x + 1] === "*") {
+            if (x + 1 < 8 && y - 1 >= 0 && position[y - 1][x + 1] === "*") {
                 moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x + 1, "y": y - 1, "originalPiece": "*"}])
             }
-            if (x - 1 >= 0 && y + 1 < 8  && position[y - 1][x - 1] === "*") {
+            if (x - 1 >= 0 && y + 1 < 8  && position[y + 1][x - 1] === "*") {
                 moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": y + 1, "originalPiece": "*"}])
             }
-            if (x + 1 < 8 && y + 1 < 8 && position[forwardY][x + 1] === "*") {
+            if (x + 1 < 8 && y + 1 < 8 && position[y + 1][x + 1] === "*") {
                 moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x + 1, "y": y + 1, "originalPiece": "*"}])
             }
         }
