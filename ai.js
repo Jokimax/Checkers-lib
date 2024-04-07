@@ -102,12 +102,14 @@ function makeMove(pos, move) {
     for(let i = 0; i < lastElementIndex; i++){
         pos[move[i]["y"]][move[i]["x"]] = "*"
     }
+    return pos
 }
 
 function unmakeMove(pos, move) {
     for(let i = 0; i < move.length; i++){
         pos[move[i]["y"]][move[i]["x"]] = move[i]["originalPiece"]
     }
+    return pos
 }
 
 function shuffle(array) { 
@@ -120,4 +122,4 @@ function shuffle(array) {
     return array;
 }
 
-module.exports = { getBestMove }
+module.exports = { getBestMove, makeMove, unmakeMove }

@@ -26,6 +26,33 @@ function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards, flyi
     return { "moves": moves, "hasToCapture": hasToCapture }
 }
 
+function getPieceMoves(position, x, y, hasToCapture, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures){
+    let moves = []
+    if (position[y][x] === "b" || position[y][x] === "w") {
+        const res = getPeasantMoves(position, x, y, position[y][x], hasToCapture, forcedCaptures, canCaptureBackwards)
+        if (res.hasToCapture && !hasToCapture) {
+            moves = []
+            hasToCapture = true
+        }
+        moves = moves.concat(res.moves);
+    } else if (position[y][x] === "W") {
+        const res = getKingMoves(position, x, y, "w", hasToCapture, forcedCaptures, flyingKing)
+        if (res.hasToCapture && !hasToCapture) {
+            moves = []
+            hasToCapture = true
+        }
+        moves = moves.concat(res.moves)
+    } else if (position[y][x] === "B") {
+        const res = getKingMoves(position, x, y, "b", hasToCapture, forcedCaptures, flyingKing)
+        if (res.hasToCapture && !hasToCapture) {
+            moves = []
+            hasToCapture = true
+        }
+        moves = moves.concat(res.moves)
+    } 
+    if(maxCaptures) moves = getMaxCaptures(moves)
+    return moves
+}
 
 function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, canCaptureBackwards) {
     let originalPiece = position[y][x]
@@ -214,4 +241,4 @@ function getMaxCaptures(moves) {
     return resMoves
 }
 
-module.exports = { getMoves }
+module.exports = { getMoves, getPeasantMoves, getKingMoves, getPieceMoves }
