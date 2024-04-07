@@ -1,4 +1,4 @@
-function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures) {
+function getMoves(position, pieceType = "w", forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false) {
     let hasToCapture = false
     let moves = []
 
@@ -26,7 +26,7 @@ function getMoves(position, pieceType, forcedCaptures, canCaptureBackwards, flyi
     return { "moves": moves, "hasToCapture": hasToCapture }
 }
 
-function getPieceMoves(position, x, y, hasToCapture, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures){
+function getPieceMoves(position, x, y, hasToCapture = false, forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false){
     let moves = []
     if (position[y][x] === "b" || position[y][x] === "w") {
         const res = getPeasantMoves(position, x, y, position[y][x], hasToCapture, forcedCaptures, canCaptureBackwards)
@@ -54,7 +54,7 @@ function getPieceMoves(position, x, y, hasToCapture, forcedCaptures, canCaptureB
     return moves
 }
 
-function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, canCaptureBackwards) {
+function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, forcedCaptures = false, canCaptureBackwards = false) {
     let originalPiece = position[y][x]
     position[y][x] = "*"
     let moves = getPieceCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}], canCaptureBackwards)
@@ -110,7 +110,7 @@ function getPeasantMoves(position, x, y, pieceType, hasToCapture, forcedCaptures
     }
 }
 
-function getKingMoves(position, x, y, pieceType, hasToCapture, forcedCaptures, flyingKing) {
+function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, forcedCaptures = false, flyingKing = false) {
     let originalPiece = position[y][x]
     position[y][x] = "*"
     let moves = getKingCaptures(position, x, y, pieceType, [{"x": x, "y": y, "originalPiece": originalPiece}])

@@ -1,6 +1,6 @@
 const checkers = require("./engine")
 
-function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures, depth) {
+function getBestMove(position, player = "w", forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false, depth = 6) {
     let potentialMoves = checkers.getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
     if (potentialMoves.length === 0) {
         return null
