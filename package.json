@@ -3,6 +3,20 @@
   "version": "1.0.0",
   "description": "A simple checkers game Engine and AI",
   "main": "index.js",
+  "keywords": [
+    "checkers",
+    "draughts",
+    "draughts ai",
+    "checkers ai"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jokimax/Checkers-lib.git"
+
+  },
+  "bugs": {
+    "url": "https://github.com/Jokimax/Checkers-lib.git/issues"
+  },
   "scripts": {
     "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
