@@ -51,7 +51,7 @@ function getPieceMoves(position, x, y, hasToCapture = false, forcedCaptures = fa
         moves = moves.concat(res.moves)
     } 
     if(maxCaptures) moves = getMaxCaptures(moves)
-    return moves
+    return {"moves": moves, "hasToCapture": hasToCapture}
 }
 
 function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, forcedCaptures = false, canCaptureBackwards = false) {
