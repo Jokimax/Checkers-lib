@@ -214,4 +214,4 @@ function getMaxCaptures(moves) {
     return resMoves
 }
 
-module.exports = { getMoves, getPeasantMoves, getKingMoves }
+module.exports = { getMoves }

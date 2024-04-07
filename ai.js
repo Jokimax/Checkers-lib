@@ -1,7 +1,7 @@
 const checkers = require("./checkers")
 
 function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures, depth) {
-    let potentialMoves = getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
+    let potentialMoves = checkers.getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
     if (potentialMoves.length === 0) {
         return null
     }
@@ -31,7 +31,7 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
 
     function search(pos, depth, alpha, beta, player) {
         if (depth === 0) return countScore(pos, player)
-        let moves = getMoves(pos, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
+        let moves = checkers.getMoves(pos, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
         if (moves.length === 0) {
             if (player === "w") return -1000000
             else return 1000000
