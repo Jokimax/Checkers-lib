@@ -1,7 +1,7 @@
 const checkers = require("./checkers")
 
 function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures, depth) {
-    let potentialMoves = checkers.getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
+    let potentialMoves = getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
     if (potentialMoves.length === 0) {
         return null
     }
@@ -9,7 +9,7 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
         return potentialMoves[0]
     }
 
-    potentialMoves = shuffleArray(potentialMoves)
+    potentialMoves = shuffle(potentialMoves)
     let bestMove = []
     let highestScore = -10000000
     let lowestScore = 10000000
@@ -31,7 +31,7 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
 
     function search(pos, depth, alpha, beta, player) {
         if (depth === 0) return countScore(pos, player)
-        let moves = checkers.getMoves(pos, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
+        let moves = getMoves(pos, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
         if (moves.length === 0) {
             if (player === "w") return -1000000
             else return 1000000
@@ -110,10 +110,12 @@ function unmakeMove(pos, move) {
     }
 }
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffle(array) { 
+    for (let i = array.length - 1; i > 0; i--) { 
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
     return array;
 }
