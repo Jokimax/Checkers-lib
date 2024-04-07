@@ -58,8 +58,8 @@ function getBestMove(position, player = "w", forcedCaptures = false, canCaptureB
 {["x": 0, "y": 3, "originalPiece": "b"], ["x": 1, "y": 4, "originalPiece": "W"], ["x": 2, "y": 5, "originalPiece": "*"]} // black captures a White King
 {["x": 1, "y": 4, "originalPiece": "W"], ["x": 3, "y": 6, "originalPiece": "*"]} // the White King moves two spaces
 ```
-**hasToCapture** - whether only captures should be returned
-**forcedCaptures** - GameRule: whether pieces are forced to capture
-**canCaptureBackwards** - GameRule: can Peasants capture backwards
-**flyingKing** - GameRule: can Kings move any number of squares
+**hasToCapture** - whether only captures should be returned<br>
+**forcedCaptures** - GameRule: whether pieces are forced to capture<br>
+**canCaptureBackwards** - GameRule: can Peasants capture backwards<br>
+**flyingKing** - GameRule: can Kings move any number of squares<br>
 **maxCaptures** - GameRule: whether pieces are forced to make the max number of captures
