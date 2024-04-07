@@ -1,7 +1,7 @@
 {
-  "name": "checkers_lib",
-  "version": "1.0.6",
-  "description": "",
+  "name": "checkers-lib",
+  "version": "1.0.0",
+  "description": "A simple checkers game Engine and AI",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
