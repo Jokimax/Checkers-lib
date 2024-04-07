@@ -1,4 +1,4 @@
-const checkers = require("./checkers")
+const checkers = require("./engine")
 
 function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures, depth) {
     let potentialMoves = checkers.getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
@@ -15,9 +15,9 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
     let lowestScore = 10000000
 
     for (let move of potentialMoves) {
-        makeMove(position, move)
+        checkers.makeMove(position, move)
         let score = search(position, depth - 1, highestScore, lowestScore, getOpponent(player));
-        unmakeMove(position, move)
+        checkers.unmakeMove(position, move)
         if (player === "w" && score > highestScore) {
             highestScore = score;
             bestMove = move
@@ -39,18 +39,18 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
 
         if (player === "w") {
             for (let move of moves) {
-                makeMove(pos, move)
+                checkers.makeMove(pos, move)
                 let score = search(pos, depth - 1, alpha, beta, "b")
-                unmakeMove(pos, move)
+                checkers.unmakeMove(pos, move)
                 alpha = Math.max(alpha, score)
                 if (alpha >= beta) break
             }
             return alpha
         } else {
             for (let move of moves) {
-                makeMove(pos, move)
+                checkers.makeMove(pos, move)
                 let score = search(pos, depth - 1, alpha, beta, "w")
-                unmakeMove(pos, move)
+                checkers.unmakeMove(pos, move)
                 beta = Math.min(beta, score)
                 if (beta <= alpha) break
             }
@@ -94,24 +94,6 @@ function getBestMove(position, player, forcedCaptures, canCaptureBackwards, flyi
     }
 }
 
-function makeMove(pos, move) {
-    let lastElementIndex = move.length - 1
-    if(move[lastElementIndex]["y"] === 7 && move[0]["originalPiece"] === "b") pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = "B"
-    else if(move[lastElementIndex]["y"] === 0 && move[0]["originalPiece"] === "w") pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = "W"
-    else pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = move[0]["originalPiece"]
-    for(let i = 0; i < lastElementIndex; i++){
-        pos[move[i]["y"]][move[i]["x"]] = "*"
-    }
-    return pos
-}
-
-function unmakeMove(pos, move) {
-    for(let i = 0; i < move.length; i++){
-        pos[move[i]["y"]][move[i]["x"]] = move[i]["originalPiece"]
-    }
-    return pos
-}
-
 function shuffle(array) { 
     for (let i = array.length - 1; i > 0; i--) { 
         const j = Math.floor(Math.random() * (i + 1));
@@ -122,4 +104,4 @@ function shuffle(array) {
     return array;
 }
 
-module.exports = { getBestMove, makeMove, unmakeMove }
+module.exports = { getBestMove }

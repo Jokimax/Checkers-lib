@@ -241,4 +241,22 @@ function getMaxCaptures(moves) {
     return resMoves
 }
 
-module.exports = { getMoves, getPeasantMoves, getKingMoves, getPieceMoves }
+function makeMove(pos, move) {
+    let lastElementIndex = move.length - 1
+    if(move[lastElementIndex]["y"] === 7 && move[0]["originalPiece"] === "b") pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = "B"
+    else if(move[lastElementIndex]["y"] === 0 && move[0]["originalPiece"] === "w") pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = "W"
+    else pos[move[lastElementIndex]["y"]][move[lastElementIndex]["x"]] = move[0]["originalPiece"]
+    for(let i = 0; i < lastElementIndex; i++){
+        pos[move[i]["y"]][move[i]["x"]] = "*"
+    }
+    return pos
+}
+
+function unmakeMove(pos, move) {
+    for(let i = 0; i < move.length; i++){
+        pos[move[i]["y"]][move[i]["x"]] = move[i]["originalPiece"]
+    }
+    return pos
+}
+
+module.exports = { getMoves, getPeasantMoves, getKingMoves, getPieceMoves, makeMove, unmakeMove }
