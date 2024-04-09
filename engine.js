@@ -1,3 +1,4 @@
+// get all posible moves in a position for a certain color
 function getMoves(position, pieceType = "w", forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false) {
     let hasToCapture = false
     let moves = []
@@ -26,6 +27,7 @@ function getMoves(position, pieceType = "w", forcedCaptures = false, canCaptureB
     return { "moves": moves, "hasToCapture": hasToCapture }
 }
 
+// get all moves for piece at a certain position
 function getPieceMoves(position, x, y, hasToCapture = false, forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false){
     let moves = []
     if (position[y][x] === "b" || position[y][x] === "w") {
@@ -54,6 +56,7 @@ function getPieceMoves(position, x, y, hasToCapture = false, forcedCaptures = fa
     return {"moves": moves, "hasToCapture": hasToCapture}
 }
 
+// gets all peasant moves at a position
 function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, forcedCaptures = false, canCaptureBackwards = false) {
     let originalPiece = position[y][x]
     position[y][x] = "*"
@@ -113,6 +116,7 @@ function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, 
     }
 }
 
+// gets all king moves at a position
 function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, forcedCaptures = false, flyingKing = false) {
     let originalPiece = position[y][x]
     position[y][x] = "*"

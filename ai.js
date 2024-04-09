@@ -1,5 +1,6 @@
 const checkers = require("./engine")
 
+// gets the best move by performing a minimax search to a certain depth
 function getBestMove(position, player = "w", forcedCaptures = false, canCaptureBackwards = false, flyingKing = false, maxCaptures = false, depth = 6) {
     let potentialMoves = checkers.getMoves(position, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
     if (potentialMoves.length === 0) {
