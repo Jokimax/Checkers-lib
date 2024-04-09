@@ -64,6 +64,7 @@ function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, 
     }
 
     if (!hasToCapture) {
+        // white moves forward, black moves back
         let forwardY = pieceType === "b" ? y + 1 : y - 1
         if (x - 1 >= 0 && forwardY >= 0 && forwardY < 8 && position[forwardY][x - 1] === "*") {
             moves.push([{"x": x, "y": y, "originalPiece": originalPiece}, {"x": x - 1, "y": forwardY, "originalPiece": "*"}])
@@ -90,12 +91,14 @@ function getPeasantMoves(position, x, y, pieceType = "w", hasToCapture = false, 
                 let enemyY = y1 + dy
 
                 if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8 &&
+                    // can capture only if the square is a piece of the opposing color and the square after that is empty 
                     ((pieceType === "b" && (pos[enemyY][enemyX] === "w" || pos[enemyY][enemyX] === "W")) ||
                     (pieceType === "w" && (pos[enemyY][enemyX] === "b" || pos[enemyY][enemyX] === "B"))) &&
                     pos[nextY][nextX] === "*") {
                     let capturedPiece = pos[enemyY][enemyX]
                     pos[enemyY][enemyX] = "*"
                     let newCapture = capture.concat([{"x": enemyX, "y": enemyY, "originalPiece": capturedPiece}, {"x": nextX, "y": nextY, "originalPiece": "*"}])
+                    // check further captures
                     let search = getPieceCaptures(pos, nextX, nextY, pieceType, newCapture)
                     if (search.length === 0) capturesRes.push(newCapture)
                     else {
@@ -173,6 +176,7 @@ function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, for
                 let y = y1 + direction.dy
         
                 while (x >= 0 && x < 8 && y >= 0 && y < 8) {
+                    // can capture only if the square is a piece of the opposing color and the square after that is empty 
                     if ((pieceType === "b" && (pos[y][x] === "w" || pos[y][x] === "W")) ||
                         (pieceType === "w" && (pos[y][x] === "b" || pos[y][x] === "B"))) {
                         let capturedPiece = pos[y][x]
@@ -182,6 +186,7 @@ function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, for
                         while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8 && pos[ny][nx] === "*") {
                             let newCapture = capture.concat([{ "x": x, "y": y, "originalPiece": capturedPiece }, { "x": nx, "y": ny, "originalPiece": "*" }])
                             pos[y][x] = "*"
+                            // check further captures
                             let search = getKingCaptures(pos, nx, ny, pieceType, newCapture)
                             if (search.length === 0) capturesRes.push(newCapture)
                             else {
@@ -205,7 +210,8 @@ function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, for
                 let nextY = y1 + (2 * direction.dy)
                 let enemyX = x1 + direction.dx
                 let enemyY = y1 + direction.dy
-    
+
+                // can capture only if the square is a piece of the opposing color and the square after that is empty 
                 if (nextX >= 0 && nextX < 8 && nextY >= 0 && nextY < 8 &&
                     ((pieceType === "b" && (pos[enemyY][enemyX] === "w" || pos[enemyY][enemyX] === "W")) ||
                     (pieceType === "w" && (pos[enemyY][enemyX] === "b" || pos[enemyY][enemyX] === "B"))) &&
@@ -213,6 +219,7 @@ function getKingMoves(position, x, y, pieceType = "w", hasToCapture = false, for
                     let capturedPiece = pos[enemyY][enemyX]
                     pos[enemyY][enemyX] = "*"
                     let newCapture = capture.concat([{"x": enemyX, "y": enemyY, "originalPiece": capturedPiece}, {"x": nextX, "y": nextY, "originalPiece": "*"}])
+                    // check further captures
                     let search = getKingCaptures(pos, nextX, nextY, pieceType, newCapture)
                     if (search.length === 0) capturesRes.push(newCapture)
                     else {

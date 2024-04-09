@@ -9,11 +9,14 @@ function getBestMove(position, player = "w", forcedCaptures = false, canCaptureB
         return potentialMoves[0]
     }
 
+    // randomize moves to get some variance in played moves
     potentialMoves = shuffle(potentialMoves)
+    
     let bestMove = []
     let highestScore = -10000000
     let lowestScore = 10000000
 
+    // minimax search
     for (let move of potentialMoves) {
         checkers.makeMove(position, move)
         let score = search(position, depth - 1, highestScore, lowestScore, getOpponent(player));
@@ -32,6 +35,7 @@ function getBestMove(position, player = "w", forcedCaptures = false, canCaptureB
     function search(pos, depth, alpha, beta, player) {
         if (depth === 0) return countScore(pos, player)
         let moves = checkers.getMoves(pos, player, forcedCaptures, canCaptureBackwards, flyingKing, maxCaptures).moves
+        // if there aren't any moves the player lost
         if (moves.length === 0) {
             if (player === "w") return -1000000
             else return 1000000
