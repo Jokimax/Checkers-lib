@@ -10,7 +10,7 @@ function getBestMove(position, player = "w", forcedCaptures = false, canCaptureB
         return potentialMoves[0]
     }
 
-    posOriginal = JSON.parse(JSON.stringify(position))
+    let posOriginal = JSON.parse(JSON.stringify(position))
 
     // randomize moves to get some variance in played moves
     potentialMoves = shuffle(potentialMoves)
